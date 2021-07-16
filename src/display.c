@@ -185,7 +185,7 @@ void draw_map() {
         for (int j = 0; j < MAP_NUM_COLS; j++) {
             int tileX = j * TILE_SIZE;
             int tileY = i * TILE_SIZE;
-            uint32_t tileColor = map[i][j] != 0 ? 0xFFFFFFFF : 0xFF000000;
+            uint32_t tileColor = getMapTilecolor(i, j);
 
             draw_rect(
                 (tileX + TILE_SIZE/2.0) * MINIMAP_SCALE_FACTOR, 
