@@ -5,13 +5,6 @@
 #include "constants.h"
 #include "display.h"
 
-// Testing a game object
-struct Player {
-    float x;
-    float y;
-};
-struct Player p1 = {100, 100};
-
 // Read input on every loop
 void readInput(bool *isGameRunning) {
     SDL_PollEvent(&sdl_event);
@@ -29,13 +22,11 @@ void readInput(bool *isGameRunning) {
 }
 
 void update(float dt) {
-    p1.x += 50 * dt;
-    p1.y += 30 * dt;
+    // To Do
 }
 
 void render(float dt) {
-    draw_rect(p1.x, p1.y, 20, 20, 0xFFFFFF00);
-    
+    draw_map();
     swapBuffer();
 }
 

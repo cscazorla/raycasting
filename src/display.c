@@ -7,6 +7,7 @@
 
 #include "constants.h"
 #include "display.h"
+#include "map.h"
 
 int initializeWindow() {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -66,8 +67,8 @@ void swapBuffer() {
 }
 
 void draw_rect(int x, int y, int width, int height, uint32_t color) {
-    for (int i = -width/2; i < width/2; i++) {
-        for (int j = -height/2; j < height/2; j++) {
+    for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
             int current_x = x + i;
             int current_y = y + j;
             if (current_x >= 0 && current_x < WINDOW_WIDTH && current_y >= 0 && current_y < WINDOW_HEIGHT) {
@@ -99,5 +100,23 @@ void draw_line(int x0, int y0, int x1, int y1, uint32_t color) {
         draw_pixel(round(current_x), round(current_y), color);
         current_x += x_inc;
         current_y += y_inc;
+    }
+}
+
+void draw_map() {
+    for (int i = 0; i < MAP_NUM_ROWS; i++) {
+        for (int j = 0; j < MAP_NUM_COLS; j++) {
+            int tileX = j * TILE_SIZE;
+            int tileY = i * TILE_SIZE;
+            uint32_t tileColor = map[i][j] != 0 ? 0xFFFFFFFF : 0xFF000000;
+
+            draw_rect(
+                tileX * MINIMAP_SCALE_FACTOR, 
+                tileY * MINIMAP_SCALE_FACTOR, 
+                TILE_SIZE * MINIMAP_SCALE_FACTOR, 
+                TILE_SIZE * MINIMAP_SCALE_FACTOR, 
+                tileColor
+            );
+        }
     }
 }
