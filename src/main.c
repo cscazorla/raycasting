@@ -48,7 +48,7 @@ void update(float dt) {
 }
 
 void render(float dt) {
-    draw_map();
+    draw_mini_map();
     draw_rays();
     draw_player();
     swapBuffer();

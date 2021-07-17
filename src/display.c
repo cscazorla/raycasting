@@ -176,13 +176,13 @@ void draw_line(int x0, int y0, int x1, int y1, uint32_t color) {
 }
 
 /*
- * Function: draw_map
+ * Function: draw_mini_map
  * -------------------
  * Draws the minimap
  * 
  * returns: void
  */
-void draw_map() {
+void draw_mini_map() {
     for (int i = 0; i < MAP_NUM_ROWS; i++) {
         for (int j = 0; j < MAP_NUM_COLS; j++) {
             int tileX = j * TILE_SIZE;
