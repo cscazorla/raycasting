@@ -9,6 +9,7 @@
 #include "display.h"
 #include "map.h"
 #include "player.h"
+#include "ray.h"
 
 /*
  * Function: initializeWindow
@@ -185,7 +186,7 @@ void draw_map() {
         for (int j = 0; j < MAP_NUM_COLS; j++) {
             int tileX = j * TILE_SIZE;
             int tileY = i * TILE_SIZE;
-            uint32_t tileColor = getMapTilecolor(i, j);
+            uint32_t tileColor = getMapTileColor(i, j);
 
             draw_rect(
                 (tileX + TILE_SIZE/2.0) * MINIMAP_SCALE_FACTOR, 
@@ -219,8 +220,27 @@ void draw_player() {
     draw_line(
         player.x * MINIMAP_SCALE_FACTOR,
         player.y * MINIMAP_SCALE_FACTOR,
-        (player.x + cos(player.rotationAngle) * 40.0f) * MINIMAP_SCALE_FACTOR,
-        (player.y + sin(player.rotationAngle) * 40.0f) * MINIMAP_SCALE_FACTOR,
+        (player.x + cos(player.rotationAngle) * 80.0f) * MINIMAP_SCALE_FACTOR,
+        (player.y + sin(player.rotationAngle) * 80.0f) * MINIMAP_SCALE_FACTOR,
         0xFFFF0000
     );
+}
+
+/*
+ * Function: draw_rays
+ * -------------------
+ * Draws the rays from the player on the minimap
+ * 
+ * returns: void
+ */
+void draw_rays() {
+    for (int i = 0; i < NUM_RAYS; i++) {
+        draw_line(
+            player.x * MINIMAP_SCALE_FACTOR,
+            player.y * MINIMAP_SCALE_FACTOR,
+            getRayWallHitX(i) * MINIMAP_SCALE_FACTOR,
+            getRayWallHitY(i) * MINIMAP_SCALE_FACTOR,
+            0xFF00FFFF
+        );
+    }
 }

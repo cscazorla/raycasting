@@ -5,6 +5,7 @@
 #include "constants.h"
 #include "display.h"
 #include "player.h"
+#include "ray.h"
 
 // Read input on every loop
 void readInput(bool *isGameRunning) {
@@ -42,12 +43,13 @@ void readInput(bool *isGameRunning) {
 }
 
 void update(float dt) {
-    // To Do
     movePlayer(dt);
+    castRays();
 }
 
 void render(float dt) {
     draw_map();
+    draw_rays();
     draw_player();
     swapBuffer();
 }

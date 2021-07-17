@@ -14,5 +14,6 @@ struct Player {
 } player;
 
 void movePlayer(float dt);
+void castRays();
 
 #endif
