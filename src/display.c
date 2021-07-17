@@ -219,8 +219,12 @@ void draw_3d_map() {
         int wallBottomPixel = (WINDOW_HEIGHT / 2.0) + (wallColumnHeight / 2.0);
 
         // Set the bright depending on the distance
-        int value = 30000 / correctedDistance;
-        value = (value > 255)?255:((value < 0)?0:value);
+        // int value = 30000 / correctedDistance;
+        // value = (value > 255)?255:((value < 0)?0:value);
+        // uint32_t color = (value << 24) + (value << 16) + (value << 8) + value;
+
+        // Set the bright depending on Horizontal or Vertical hit
+        int value = getRayWasHitVertical(i) ? 255 : 128;
         uint32_t color = (value << 24) + (value << 16) + (value << 8) + value;
 
         // Render the wall on the color buffer
