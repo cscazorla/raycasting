@@ -232,6 +232,16 @@ void draw_3d_map() {
             draw_pixel(i, j, color);
         }
 
+        // Render the ceiling on the color buffer
+        for (int j = 0; j < wallTopPixel; j++) {
+            draw_pixel(i, j, 0xFFb8e4ff);
+        }
+
+        // Render the floor on the color buffer
+        for (int j = wallBottomPixel; j < WINDOW_HEIGHT; j++) {
+            draw_pixel(i, j, 0xFF303030);
+        }
+
     }
 }
 /*
