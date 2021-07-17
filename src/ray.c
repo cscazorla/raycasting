@@ -118,21 +118,21 @@ void castRay(float rayAngle, float x, float y, int stripId) {
 
     // Main loop to find an horizontal wall hit
     float verticalIntersectionNextX = xintercept;
-    float verticalIntersectionNextY = yintercept;
-    while (verticalIntersectionNextX >= 0 && verticalIntersectionNextX <= WINDOW_WIDTH && verticalIntersectionNextY >= 0 && verticalIntersectionNextY <= WINDOW_HEIGHT) {
+    float nextVertTouchY = yintercept;
+    while (verticalIntersectionNextX >= 0 && verticalIntersectionNextX <= WINDOW_WIDTH && nextVertTouchY >= 0 && nextVertTouchY <= WINDOW_HEIGHT) {
         float xToCheck = verticalIntersectionNextX + (isFacingLeft ? -1 : 0);
-        float yToCheck = verticalIntersectionNextY;
+        float yToCheck = nextVertTouchY;
         
         if (mapHasWallAt(xToCheck, yToCheck)) {
             // found a wall hit
             vertWallHitX = verticalIntersectionNextX;
-            vertWallHitY = verticalIntersectionNextY;
+            vertWallHitY = nextVertTouchY;
             vertWallContent = getMapTileContent(xToCheck, yToCheck);
             foundVertWallHit = true;
             break;
         } else {
             verticalIntersectionNextX += xstep;
-            verticalIntersectionNextY += ystep;
+            nextVertTouchY += ystep;
         }
     }
 
@@ -191,4 +191,17 @@ float getRayWallHitX(int i) {
  */
 float getRayWallHitY(int i) {
     return rays[i].wallHitY;
+}
+
+/*
+ * Function: getRayWallHitDistance
+ * -------------------
+ * For the ray "i" this function returns the distance to the wall hit
+ * 
+ * int i: Ray index
+ * 
+ * returns: float distance
+ */
+float getRayWallHitDistance(int i) {
+    return rays[i].distance;
 }

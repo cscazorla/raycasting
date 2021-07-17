@@ -201,6 +201,30 @@ void draw_mini_map() {
 }
 
 /*
+ * Function: draw_3d_map
+ * -------------------
+ * Draws the 3d projection of the map on the screen
+ * 
+ * returns: void
+ */
+void draw_3d_map() {
+    float distanceProjectionPlane = (WINDOW_WIDTH / 2.0) / tan(FOV_ANGLE / 2.0);
+    for (int i = 0; i < NUM_RAYS; i++) {
+        float projectedWallHeight = (TILE_SIZE / getRayWallHitDistance(i)) * distanceProjectionPlane;
+        int wallColumnHeight = (int)projectedWallHeight;
+
+        // Get top and bottom pixels
+        int wallTopPixel = (WINDOW_HEIGHT / 2.0) - (wallColumnHeight / 2.0);
+        int wallBottomPixel = (WINDOW_HEIGHT / 2.0) + (wallColumnHeight / 2.0);
+
+        // Render the wall on the color buffer
+        for (int j = wallTopPixel; j < wallBottomPixel; j++) {
+            draw_pixel(i, j, 0xFFFFFFFF);
+        }
+
+    }
+}
+/*
  * Function: draw_player
  * -------------------
  * Draws the player on minimap

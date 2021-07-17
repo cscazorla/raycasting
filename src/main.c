@@ -48,6 +48,7 @@ void update(float dt) {
 }
 
 void render(float dt) {
+    draw_3d_map();
     draw_mini_map();
     draw_rays();
     draw_player();
@@ -61,7 +62,7 @@ void start() {
     player.height = 10;
     player.turnDirection = 0;
     player.walkDirection = 0;
-    player.rotationAngle = PI / 4;
+    player.rotationAngle = 0;
     player.walkSpeed = 100;
     player.turnSpeed = 90 * (PI / 180);
 }
