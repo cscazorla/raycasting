@@ -205,3 +205,16 @@ float getRayWallHitY(int i) {
 float getRayWallHitDistance(int i) {
     return rays[i].distance;
 }
+
+/*
+ * Function: getRayAngle
+ * -------------------
+ * For the ray "i" this function returns the ray angle
+ * 
+ * int i: Ray index
+ * 
+ * returns: float Ray angle
+ */
+float getRayAngle(int i) {
+    return rays[i].rayAngle;
+}
