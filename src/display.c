@@ -53,6 +53,15 @@ int initializeWindow() {
         WINDOW_HEIGHT
     );
 
+    // Allocate memory for my texture buffer
+    wallTexture = (uint32_t*) malloc(sizeof(uint32_t) * (uint32_t) TEXTURE_WIDTH * (uint32_t) TEXTURE_HEIGHT);
+    // I will create a texture programmatically
+    for (int x = 0; x < TEXTURE_WIDTH; x++) {
+        for (int y = 0; y < TEXTURE_HEIGHT; y++) {
+            wallTexture[(TEXTURE_WIDTH * y) + x] = (x % 8 && y % 8) ? 0xFF4a3005: 0xFF241702;
+        }
+    }
+
     return true;
 }
 
@@ -224,17 +233,25 @@ void draw_3d_map() {
         // uint32_t color = (value << 24) + (value << 16) + (value << 8) + value;
 
         // Set the bright depending on Horizontal or Vertical hit
-        int value = getRayWasHitVertical(i) ? 255 : 128;
-        uint32_t color = (value << 24) + (value << 16) + (value << 8) + value;
-
-        // Render the wall on the color buffer
-        for (int j = wallTopPixel; j < wallBottomPixel; j++) {
-            draw_pixel(i, j, color);
-        }
+        // int value = getRayWasHitVertical(i) ? 255 : 128;
+        // uint32_t color = (value << 24) + (value << 16) + (value << 8) + value;
 
         // Render the ceiling on the color buffer
         for (int j = 0; j < wallTopPixel; j++) {
             draw_pixel(i, j, 0xFFb8e4ff);
+        }
+
+        // Render the wall on the color buffer
+        int offsetX;
+        if (getRayWasHitVertical(i)) {
+            offsetX = (int)getRayWallHitY(i) % TILE_SIZE;
+        } else {
+            offsetX = (int)getRayWallHitX(i) % TILE_SIZE;
+        }
+        for (int j = wallTopPixel; j < wallBottomPixel; j++) {
+            int offsetY = (j - wallTopPixel) * ((float)TEXTURE_HEIGHT / wallColumnHeight);
+            uint32_t color = wallTexture[(TEXTURE_WIDTH * offsetY) + offsetX];
+            draw_pixel(i, j, color);
         }
 
         // Render the floor on the color buffer

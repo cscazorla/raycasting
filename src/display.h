@@ -9,6 +9,7 @@ SDL_Renderer* renderer;
 SDL_Event sdl_event;
 uint32_t* color_buffer;
 SDL_Texture* color_buffer_texture;
+uint32_t* wallTexture;
 
 int initializeWindow();
 void destroyWindow();
