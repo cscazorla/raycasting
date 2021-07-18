@@ -10,6 +10,7 @@
 #include "map.h"
 #include "player.h"
 #include "ray.h"
+#include "textures.h"
 
 /*
  * Function: initializeWindow
@@ -47,20 +48,14 @@ int initializeWindow() {
     // Creating a SDL texture that is used to display the color buffer
     color_buffer_texture = SDL_CreateTexture(
         renderer,
-        SDL_PIXELFORMAT_ARGB8888,
+        SDL_PIXELFORMAT_ABGR8888,
         SDL_TEXTUREACCESS_STREAMING,
         WINDOW_WIDTH,
         WINDOW_HEIGHT
     );
 
-    // Allocate memory for my texture buffer
-    wallTexture = (uint32_t*) malloc(sizeof(uint32_t) * (uint32_t) TEXTURE_WIDTH * (uint32_t) TEXTURE_HEIGHT);
-    // I will create a texture programmatically
-    for (int x = 0; x < TEXTURE_WIDTH; x++) {
-        for (int y = 0; y < TEXTURE_HEIGHT; y++) {
-            wallTexture[(TEXTURE_WIDTH * y) + x] = (x % 8 && y % 8) ? 0xFF4a3005: 0xFF241702;
-        }
-    }
+    // Load textures through uPNG
+    loadTextures();
 
     return true;
 }
@@ -73,6 +68,10 @@ int initializeWindow() {
  * returns: void
  */
 void destroyWindow() {
+    for (int i = 0; i < NUM_TEXTURES; i++) {
+        upng_t* upng = textures[i].upngTexture;
+        upng_free(upng);
+    }
     free(color_buffer);
     SDL_DestroyTexture(color_buffer_texture);
     SDL_DestroyRenderer(renderer);
@@ -93,9 +92,6 @@ void swapBuffer() {
     SDL_UpdateTexture(color_buffer_texture, NULL, color_buffer, (int)(WINDOW_WIDTH * sizeof(uint32_t)));
     SDL_RenderCopy(renderer, color_buffer_texture, NULL, NULL);
     
-    // Clear color_buffer
-    memset(color_buffer, 0, WINDOW_WIDTH * WINDOW_HEIGHT * sizeof(uint32_t));
-
     // Swap the video buffer
     SDL_RenderPresent(renderer);
 }
@@ -238,7 +234,7 @@ void draw_3d_map() {
 
         // Render the ceiling on the color buffer
         for (int j = 0; j < wallTopPixel; j++) {
-            draw_pixel(i, j, 0xFFb8e4ff);
+            draw_pixel(i, j, 0xFFFAF7E8);
         }
 
         // Render the wall on the color buffer
@@ -248,15 +244,16 @@ void draw_3d_map() {
         } else {
             offsetX = (int)getRayWallHitX(i) % TILE_SIZE;
         }
+        int textIndex = getRayHitContent(i) - 1;
         for (int j = wallTopPixel; j < wallBottomPixel; j++) {
             int offsetY = (j - wallTopPixel) * ((float)TEXTURE_HEIGHT / wallColumnHeight);
-            uint32_t color = wallTexture[(TEXTURE_WIDTH * offsetY) + offsetX];
+            uint32_t color = textures[textIndex].texture_buffer[(TEXTURE_WIDTH * offsetY) + offsetX];
             draw_pixel(i, j, color);
         }
 
         // Render the floor on the color buffer
         for (int j = wallBottomPixel; j < WINDOW_HEIGHT; j++) {
-            draw_pixel(i, j, 0xFF303030);
+            draw_pixel(i, j, 0xFF24231F);
         }
 
     }

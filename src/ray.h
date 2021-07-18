@@ -7,4 +7,5 @@ float getRayWallHitY(int i);
 float getRayWallHitDistance(int i);
 float getRayAngle(int i);
 int getRayWasHitVertical(int i);
+int getRayHitContent(int i);
 #endif

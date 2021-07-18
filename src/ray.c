@@ -231,3 +231,16 @@ float getRayAngle(int i) {
 int getRayWasHitVertical(int i) {
     return rays[i].wasHitVertical;
 }
+
+/*
+ * Function: getRayHitContent
+ * -------------------
+ * For the ray "i" this function returns the content of the hit wall
+ * 
+ * int i: Ray index
+ * 
+ * returns: int Content of the hit wall
+ */
+int getRayHitContent(int i) {
+    return rays[i].wallHitContent;
+}
