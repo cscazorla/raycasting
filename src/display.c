@@ -221,7 +221,9 @@ void draw_3d_map() {
 
         // Get top and bottom pixels
         int wallTopPixel = (WINDOW_HEIGHT / 2.0) - (wallColumnHeight / 2.0);
+        wallTopPixel = wallTopPixel < 0 ? 0 : wallTopPixel;
         int wallBottomPixel = (WINDOW_HEIGHT / 2.0) + (wallColumnHeight / 2.0);
+        wallBottomPixel = wallBottomPixel > WINDOW_HEIGHT ? WINDOW_HEIGHT : wallBottomPixel;
 
         // Set the bright depending on the distance
         // int value = 30000 / correctedDistance;
@@ -246,7 +248,8 @@ void draw_3d_map() {
         }
         int textIndex = getRayHitContent(i) - 1;
         for (int j = wallTopPixel; j < wallBottomPixel; j++) {
-            int offsetY = (j - wallTopPixel) * ((float)TEXTURE_HEIGHT / wallColumnHeight);
+            int topDistance = j + (wallColumnHeight / 2) - (WINDOW_HEIGHT / 2);
+            int offsetY = topDistance * ((float)TEXTURE_HEIGHT / wallColumnHeight);
             uint32_t color = textures[textIndex].texture_buffer[(TEXTURE_WIDTH * offsetY) + offsetX];
             draw_pixel(i, j, color);
         }
