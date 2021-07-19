@@ -12,7 +12,7 @@ const int map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
     {7, 0, 2, 0, 2, 0, 2, 0, 6, 0, 6, 6, 0, 0, 5, 0, 6, 0, 8, 7},
     {7, 0, 0, 0, 0, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 0, 0, 0, 8, 7},
     {7, 0, 3, 0, 3, 0, 3, 0, 6, 0, 6, 0, 3, 0, 3, 0, 3, 0, 0, 7},
-    {7, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 7},
+    {7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7},
     {7, 0, 4, 0, 4, 0, 4, 0, 4, 4, 4, 0, 4, 0, 4, 0, 4, 0, 0, 7},
     {7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7},
     {7, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 0, 7},
@@ -31,7 +31,7 @@ const int map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
  * returns: true/false if there is a wall
  */
 bool mapHasWallAt(float x, float y) {
-    if(x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT) 
+    if(x < 0 || x >= MAP_NUM_COLS * TILE_SIZE || y < 0 || y >= MAP_NUM_ROWS * TILE_SIZE) 
         return true;
     int mapGridIndexX = (int)floor(x / TILE_SIZE);
     int mapGridIndexY = (int)floor(y / TILE_SIZE);

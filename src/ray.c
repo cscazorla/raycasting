@@ -12,11 +12,7 @@ struct Ray {
     float wallHitX;
     float wallHitY;
     float distance;
-    int wasHitVertical;
-    int isFacingUp;
-    int isFacingDown;
-    int isFacingLeft;
-    int isFacingRight;
+    bool wasHitVertical;
     int wallHitContent;
 } rays[NUM_RAYS];
 
@@ -58,7 +54,7 @@ void castRay(float rayAngle, float x, float y, int stripId) {
     /***********************************************
     * Horizontal intersections check
     ************************************************/
-    int foundHorzWallHit = false;
+    bool foundHorzWallHit = false;
     float horzWallHitX = 0;
     float horzWallHitY = 0;
     int horzWallContent = 0;
@@ -79,7 +75,7 @@ void castRay(float rayAngle, float x, float y, int stripId) {
     // Main loop to find an horizontal wall hit
     float horizontalIntersectionNextX = xintercept;
     float horizontalIntersectionNextY = yintercept;
-    while (horizontalIntersectionNextX >= 0 && horizontalIntersectionNextX <= WINDOW_WIDTH && horizontalIntersectionNextY >= 0 && horizontalIntersectionNextY <= WINDOW_HEIGHT) {
+    while (horizontalIntersectionNextX >= 0 && horizontalIntersectionNextX <= (MAP_NUM_COLS * TILE_SIZE) && horizontalIntersectionNextY >= 0 && horizontalIntersectionNextY <= (MAP_NUM_ROWS * TILE_SIZE)) {
         float xToCheck = horizontalIntersectionNextX;
         float yToCheck = horizontalIntersectionNextY + (isFacingUp ? -1 : 0);
         
@@ -99,7 +95,7 @@ void castRay(float rayAngle, float x, float y, int stripId) {
     /***********************************************
     * Vertical intersections check
     ************************************************/
-    int foundVertWallHit = false;
+    bool foundVertWallHit = false;
     float vertWallHitX = 0;
     float vertWallHitY = 0;
     int vertWallContent = 0;
@@ -119,7 +115,7 @@ void castRay(float rayAngle, float x, float y, int stripId) {
     // Main loop to find an horizontal wall hit
     float verticalIntersectionNextX = xintercept;
     float nextVertTouchY = yintercept;
-    while (verticalIntersectionNextX >= 0 && verticalIntersectionNextX <= WINDOW_WIDTH && nextVertTouchY >= 0 && nextVertTouchY <= WINDOW_HEIGHT) {
+    while (verticalIntersectionNextX >= 0 && verticalIntersectionNextX <= (MAP_NUM_COLS * TILE_SIZE) && nextVertTouchY >= 0 && nextVertTouchY <= (MAP_NUM_ROWS * TILE_SIZE)) {
         float xToCheck = verticalIntersectionNextX + (isFacingLeft ? -1 : 0);
         float yToCheck = nextVertTouchY;
         
@@ -151,18 +147,15 @@ void castRay(float rayAngle, float x, float y, int stripId) {
         rays[stripId].wallHitY = vertWallHitY;
         rays[stripId].wallHitContent = vertWallContent;
         rays[stripId].wasHitVertical = true;
+        rays[stripId].rayAngle = rayAngle;
     } else {
         rays[stripId].distance = horzHitDistance;
         rays[stripId].wallHitX = horzWallHitX;
         rays[stripId].wallHitY = horzWallHitY;
         rays[stripId].wallHitContent = horzWallContent;
         rays[stripId].wasHitVertical = false;
+        rays[stripId].rayAngle = rayAngle;
     }
-    rays[stripId].rayAngle = rayAngle;
-    rays[stripId].isFacingDown = isFacingDown;
-    rays[stripId].isFacingUp = isFacingUp;
-    rays[stripId].isFacingLeft = isFacingLeft;
-    rays[stripId].isFacingRight = isFacingRight;
 }
 
 /*

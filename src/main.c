@@ -48,6 +48,7 @@ void update(float dt) {
 }
 
 void render(float dt) {
+    clearBuffer();
     draw_3d_map();
     draw_mini_map();
     draw_rays();
@@ -56,8 +57,8 @@ void render(float dt) {
 }
 
 void start() {
-    player.x = WINDOW_WIDTH / 2;
-    player.y = WINDOW_HEIGHT / 4;
+    player.x = 6 * TILE_SIZE;
+    player.y = 3.5 * TILE_SIZE;
     player.width = 10;
     player.height = 10;
     player.turnDirection = 0;

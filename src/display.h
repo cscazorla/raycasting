@@ -10,8 +10,9 @@ SDL_Event sdl_event;
 uint32_t* color_buffer;
 SDL_Texture* color_buffer_texture;
 
-int initializeWindow();
+bool initializeWindow();
 void destroyWindow();
+void clearBuffer();
 void swapBuffer();
 void draw_rect(int x, int y, int width, int height, uint32_t color);
 void draw_pixel(int x, int y, uint32_t color);

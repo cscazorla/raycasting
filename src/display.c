@@ -19,7 +19,7 @@
  * 
  * returns: true/false if the operation succeeded
  */
-int initializeWindow() {
+bool initializeWindow() {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         fprintf(stderr, "Error initializing SDL.\n");
         return false;
@@ -77,6 +77,11 @@ void destroyWindow() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+}
+
+void clearBuffer() {
+    for (int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; i++)
+        color_buffer[i] = 0x00000000;
 }
 
 /*
@@ -268,22 +273,12 @@ void draw_3d_map() {
  * returns: void
  */
 void draw_player() {
-    // Body
     draw_rect(
         player.x * MINIMAP_SCALE_FACTOR,
         player.y * MINIMAP_SCALE_FACTOR,
         player.width * MINIMAP_SCALE_FACTOR,
         player.height * MINIMAP_SCALE_FACTOR,
-        0xFF00FF00
-    );
-
-    // Looking at?
-    draw_line(
-        player.x * MINIMAP_SCALE_FACTOR,
-        player.y * MINIMAP_SCALE_FACTOR,
-        (player.x + cos(player.rotationAngle) * 80.0f) * MINIMAP_SCALE_FACTOR,
-        (player.y + sin(player.rotationAngle) * 80.0f) * MINIMAP_SCALE_FACTOR,
-        0xFFFF0000
+        0xFF0000FF
     );
 }
 
