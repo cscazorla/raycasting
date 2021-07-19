@@ -32,10 +32,8 @@ void movePlayer(float dt) {
  * returns: void
  */
 void castRays() {
-    float angle = player.rotationAngle - (FOV_ANGLE / 2.0);
-
-    for (int stripId = 0; stripId < NUM_RAYS; stripId++) {
-        castRay(angle, player.x, player.y, stripId);
-        angle += FOV_ANGLE / NUM_RAYS;
+    for (int column = 0; column < NUM_RAYS; column++) {
+        float angle = player.rotationAngle + atan((column-NUM_RAYS/2) / DIST_PROJ_PLANE);
+        castRay(angle, player.x, player.y, column);
     }
 }

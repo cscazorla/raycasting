@@ -213,10 +213,9 @@ void draw_mini_map() {
  * returns: void
  */
 void draw_3d_map() {
-    float distanceProjectionPlane = (WINDOW_WIDTH / 2.0) / tan(FOV_ANGLE / 2.0);
     for (int i = 0; i < NUM_RAYS; i++) {
         float correctedDistance = getRayWallHitDistance(i) * cos(getRayAngle(i) - player.rotationAngle);
-        float projectedWallHeight = (TILE_SIZE / correctedDistance) * distanceProjectionPlane;
+        float projectedWallHeight = (TILE_SIZE / correctedDistance) * DIST_PROJ_PLANE;
         int wallColumnHeight = (int)projectedWallHeight;
 
         // Get top and bottom pixels
