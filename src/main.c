@@ -50,9 +50,7 @@ void update(float dt) {
 void render(float dt) {
     clearBuffer();
     draw_3d_map();
-    draw_mini_map();
-    draw_mini_map_rays();
-    draw_mini_map_player();
+    // draw_mini_map();
     swapBuffer();
 }
 

@@ -197,6 +197,7 @@ void draw_line(int x0, int y0, int x1, int y1, uint32_t color) {
  * returns: void
  */
 void draw_mini_map() {
+    // Map
     for (int i = 0; i < MAP_NUM_ROWS; i++) {
         for (int j = 0; j < MAP_NUM_COLS; j++) {
             int tileX = j * TILE_SIZE;
@@ -211,6 +212,27 @@ void draw_mini_map() {
                 tileColor
             );
         }
+    }
+
+    // Player
+    struct Player player = getPlayer();
+    draw_rect(
+        player.x * MINIMAP_SCALE_FACTOR,
+        player.y * MINIMAP_SCALE_FACTOR,
+        player.width * MINIMAP_SCALE_FACTOR,
+        player.height * MINIMAP_SCALE_FACTOR,
+        0xFF0000FF
+    );
+
+    // Rays
+    for (int i = 0; i < NUM_RAYS; i++) {
+        draw_line(
+            player.x * MINIMAP_SCALE_FACTOR,
+            player.y * MINIMAP_SCALE_FACTOR,
+            getRayWallHitX(i) * MINIMAP_SCALE_FACTOR,
+            getRayWallHitY(i) * MINIMAP_SCALE_FACTOR,
+            0xFF00FFFF
+        );
     }
 }
 
@@ -234,32 +256,20 @@ void draw_3d_map() {
         int wallBottomPixel = (WINDOW_HEIGHT / 2.0) + (wallColumnHeight / 2.0);
         wallBottomPixel = wallBottomPixel > WINDOW_HEIGHT ? WINDOW_HEIGHT : wallBottomPixel;
 
-        // Set the bright depending on the distance
-        // int value = 30000 / correctedDistance;
-        // value = (value > 255)?255:((value < 0)?0:value);
-        // uint32_t color = (value << 24) + (value << 16) + (value << 8) + value;
-
-        // Set the bright depending on Horizontal or Vertical hit
-        // int value = getRayWasHitVertical(i) ? 255 : 128;
-        // uint32_t color = (value << 24) + (value << 16) + (value << 8) + value;
-
         // Render the ceiling on the color buffer
         for (int j = 0; j < wallTopPixel; j++) {
             draw_pixel(i, j, 0xFFFAF7E8);
         }
-
+        
         // Render the wall on the color buffer
-        int offsetX;
-        if (getRayWasHitVertical(i)) {
-            offsetX = (int)getRayWallHitY(i) % TILE_SIZE;
-        } else {
-            offsetX = (int)getRayWallHitX(i) % TILE_SIZE;
-        }
+        int offsetX = getRayWasHitVertical(i)?(int)getRayWallHitY(i) % TILE_SIZE:(int)getRayWallHitX(i) % TILE_SIZE;
         int textIndex = getRayHitContent(i) - 1;
+        float intensityShadingFactor = 75 / getRayWallHitDistance(i);
         for (int j = wallTopPixel; j < wallBottomPixel; j++) {
             int topDistance = j + (wallColumnHeight / 2) - (WINDOW_HEIGHT / 2);
             int offsetY = topDistance * ((float)TEXTURE_HEIGHT / wallColumnHeight);
             uint32_t color = textures[textIndex].texture_buffer[(TEXTURE_WIDTH * offsetY) + offsetX];
+            changeColorIntensity(&color, intensityShadingFactor);
             draw_pixel(i, j, color);
         }
 
@@ -270,40 +280,22 @@ void draw_3d_map() {
 
     }
 }
-/*
- * Function: draw_player
- * -------------------
- * Draws the player on minimap
- * 
- * returns: void
- */
-void draw_mini_map_player() {
-    struct Player player = getPlayer();
-    draw_rect(
-        player.x * MINIMAP_SCALE_FACTOR,
-        player.y * MINIMAP_SCALE_FACTOR,
-        player.width * MINIMAP_SCALE_FACTOR,
-        player.height * MINIMAP_SCALE_FACTOR,
-        0xFF0000FF
-    );
-}
 
 /*
- * Function: draw_rays
+ * Function: changeColorIntensity
  * -------------------
- * Draws the rays from the player on the minimap
+ * Changes the intensity (bright) of a color by a factor
+ * 
+ * uint32_t* color: Pointer to the color to be updated
+ * float factor: Factor between 0 and 1 to be applied to the color
  * 
  * returns: void
  */
-void draw_mini_map_rays() {
-    struct Player player = getPlayer();
-    for (int i = 0; i < NUM_RAYS; i++) {
-        draw_line(
-            player.x * MINIMAP_SCALE_FACTOR,
-            player.y * MINIMAP_SCALE_FACTOR,
-            getRayWallHitX(i) * MINIMAP_SCALE_FACTOR,
-            getRayWallHitY(i) * MINIMAP_SCALE_FACTOR,
-            0xFF00FFFF
-        );
-    }
+void changeColorIntensity(uint32_t* color, float factor) {
+    factor = (factor > 1.0)?1.0:((factor < 0.0)?0.0:factor);
+    uint32_t c1 = (*color & 0xFF000000);
+    uint32_t c2 = (*color & 0x00FF0000) * factor;
+    uint32_t c3 = (*color & 0x0000FF00) * factor;
+    uint32_t c4 = (*color & 0x000000FF) * factor;
+    *color = c1 | (c2 & 0x00FF0000) | (c3 & 0x0000FF00) | (c4 & 0x000000FF);
 }

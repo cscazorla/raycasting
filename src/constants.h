@@ -3,8 +3,8 @@
 
 // Game
 #define FPS 60
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 800
+#define WINDOW_WIDTH 480
+#define WINDOW_HEIGHT 300
 
 // Map
 #define TILE_SIZE 64
