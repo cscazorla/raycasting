@@ -49,7 +49,7 @@ void update(float dt) {
 
 void render(float dt) {
     clearBuffer();
-    draw_3d_map();
+    draw_wall_projection();
     // draw_mini_map();
     swapBuffer();
 }

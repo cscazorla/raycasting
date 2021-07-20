@@ -237,13 +237,13 @@ void draw_mini_map() {
 }
 
 /*
- * Function: draw_3d_map
+ * Function: draw_wall_projection
  * -------------------
  * Draws the 3d projection of the map on the screen
  * 
  * returns: void
  */
-void draw_3d_map() {
+void draw_wall_projection() {
     struct Player player = getPlayer();
     for (int i = 0; i < NUM_RAYS; i++) {
         float correctedDistance = getRayWallHitDistance(i) * cos(getRayAngle(i) - player.rotationAngle);
