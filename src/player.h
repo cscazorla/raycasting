@@ -11,9 +11,12 @@ struct Player {
     float rotationAngle;
     float walkSpeed;
     float turnSpeed;
-} player;
+};
 
+struct Player getPlayer();
+void initializePlayer();
 void movePlayer(float dt);
-void castRays();
+void setPlayerTurnDirection(int dir);
+void setPlayerWalkDirection(int dir);
 
 #endif

@@ -19,24 +19,24 @@ void readInput(bool *isGameRunning) {
             if (sdl_event.key.keysym.sym == SDLK_ESCAPE)
                 *isGameRunning = false;
             if (sdl_event.key.keysym.sym == SDLK_UP)
-                player.walkDirection = 1;
+                setPlayerWalkDirection(PLAYER_WALK_DIRECTION_FRONT);
             if (sdl_event.key.keysym.sym == SDLK_DOWN)
-                player.walkDirection = -1;
+                setPlayerWalkDirection(PLAYER_WALK_DIRECTION_BACK);
             if (sdl_event.key.keysym.sym == SDLK_RIGHT)
-                player.turnDirection = 1;
+                setPlayerTurnDirection(PLAYER_TURN_DIRECTION_RIGHT);
             if (sdl_event.key.keysym.sym == SDLK_LEFT)
-                player.turnDirection = -1;
+                setPlayerTurnDirection(PLAYER_TURN_DIRECTION_LEFT);
             break;
         }
         case SDL_KEYUP: {
             if (sdl_event.key.keysym.sym == SDLK_UP)
-                player.walkDirection = 0;
+                setPlayerWalkDirection(0);
             if (sdl_event.key.keysym.sym == SDLK_DOWN)
-                player.walkDirection = -0;
+                setPlayerWalkDirection(0);
             if (sdl_event.key.keysym.sym == SDLK_RIGHT)
-                player.turnDirection = 0;
+                setPlayerTurnDirection(0);
             if (sdl_event.key.keysym.sym == SDLK_LEFT)
-                player.turnDirection = -0;
+                setPlayerTurnDirection(0);
             break;
         }
     }
@@ -51,21 +51,9 @@ void render(float dt) {
     clearBuffer();
     draw_3d_map();
     draw_mini_map();
-    draw_rays();
-    draw_player();
+    draw_mini_map_rays();
+    draw_mini_map_player();
     swapBuffer();
-}
-
-void start() {
-    player.x = 6 * TILE_SIZE;
-    player.y = 3.5 * TILE_SIZE;
-    player.width = 10;
-    player.height = 10;
-    player.turnDirection = 0;
-    player.walkDirection = 0;
-    player.rotationAngle = 0;
-    player.walkSpeed = 100;
-    player.turnSpeed = 90 * (PI / 180);
 }
 
 int main(int argc, char *argv[]) {
@@ -74,7 +62,7 @@ int main(int argc, char *argv[]) {
     int timeToWait = 0;
     float dt = 0;
 
-    start();
+    initializePlayer();
 
     while (isGameRunning) {
         readInput(&isGameRunning);

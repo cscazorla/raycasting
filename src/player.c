@@ -3,6 +3,20 @@
 #include "player.h"
 #include "ray.h"
 
+struct Player player;
+
+void initializePlayer() {
+    player.x = 6 * TILE_SIZE;
+    player.y = 3.5 * TILE_SIZE;
+    player.width = 10;
+    player.height = 10;
+    player.turnDirection = 0;
+    player.walkDirection = 0;
+    player.rotationAngle = 0;
+    player.walkSpeed = 100;
+    player.turnSpeed = 90 * (PI / 180);
+}
+
 /*
  * Function: movePlayer
  * -------------------
@@ -24,16 +38,14 @@ void movePlayer(float dt) {
     }
 }
 
-/*
- * Function: castRays
- * -------------------
- * Cast rays from the player position considering a FOV angle
- * 
- * returns: void
- */
-void castRays() {
-    for (int column = 0; column < NUM_RAYS; column++) {
-        float angle = player.rotationAngle + atan((column-NUM_RAYS/2) / DIST_PROJ_PLANE);
-        castRay(angle, player.x, player.y, column);
-    }
+struct Player getPlayer() {
+    return player;
+}
+
+void setPlayerWalkDirection(int dir) {
+    player.walkDirection = dir;
+}
+
+void setPlayerTurnDirection(int dir) {
+    player.turnDirection = dir;
 }

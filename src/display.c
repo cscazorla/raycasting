@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <SDL2/SDL.h>
-
 #include "constants.h"
 #include "display.h"
 #include "map.h"
@@ -223,6 +222,7 @@ void draw_mini_map() {
  * returns: void
  */
 void draw_3d_map() {
+    struct Player player = getPlayer();
     for (int i = 0; i < NUM_RAYS; i++) {
         float correctedDistance = getRayWallHitDistance(i) * cos(getRayAngle(i) - player.rotationAngle);
         float projectedWallHeight = (TILE_SIZE / correctedDistance) * DIST_PROJ_PLANE;
@@ -277,7 +277,8 @@ void draw_3d_map() {
  * 
  * returns: void
  */
-void draw_player() {
+void draw_mini_map_player() {
+    struct Player player = getPlayer();
     draw_rect(
         player.x * MINIMAP_SCALE_FACTOR,
         player.y * MINIMAP_SCALE_FACTOR,
@@ -294,7 +295,8 @@ void draw_player() {
  * 
  * returns: void
  */
-void draw_rays() {
+void draw_mini_map_rays() {
+    struct Player player = getPlayer();
     for (int i = 0; i < NUM_RAYS; i++) {
         draw_line(
             player.x * MINIMAP_SCALE_FACTOR,

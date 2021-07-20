@@ -13,7 +13,7 @@ void draw_pixel(int x, int y, uint32_t color);
 void draw_line(int x0, int y0, int x1, int y1, uint32_t color);
 void draw_3d_map();
 void draw_mini_map();
-void draw_player();
-void draw_rays();
+void draw_mini_map_player();
+void draw_mini_map_rays();
 
 #endif

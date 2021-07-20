@@ -1,9 +1,9 @@
 #include <float.h>
 #include <math.h>
 #include <stdbool.h>
-
 #include "constants.h"
 #include "map.h"
+#include "player.h"
 #include "ray.h"
 #include "utils.h"
 
@@ -15,6 +15,21 @@ struct Ray {
     bool wasHitVertical;
     int wallHitContent;
 } rays[NUM_RAYS];
+
+/*
+ * Function: castRays
+ * -------------------
+ * Cast rays from the player position considering a FOV angle
+ * 
+ * returns: void
+ */
+void castRays() {
+    struct Player player = getPlayer();
+    for (int column = 0; column < NUM_RAYS; column++) {
+        float angle = player.rotationAngle + atan((column-NUM_RAYS/2) / DIST_PROJ_PLANE);
+        castRay(angle, player.x, player.y, column);
+    }
+}
 
 /*
  * Function: castRay

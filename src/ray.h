@@ -1,6 +1,9 @@
 #ifndef RAY_H
 #define RAY_H
 
+#include "player.h"
+
+void castRays();
 void castRay(float rayAngle, float x, float y, int stripId);
 float getRayWallHitX(int i);
 float getRayWallHitY(int i);

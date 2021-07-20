@@ -1,25 +1,34 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+// Game
 #define FPS 60
-#define FRAME_TIME_LENGTH (1000 / FPS)
-#define FOV_ANGLE (60 * (PI/180))
-#define NUM_RAYS WINDOW_WIDTH
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 800
 
-#define PI 3.14159265
-#define TWO_PI 6.28318530
-
+// Map
 #define TILE_SIZE 64
 #define MAP_NUM_ROWS 13
 #define MAP_NUM_COLS 20
 #define MINIMAP_SCALE_FACTOR 0.25
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 800
 
-#define DIST_PROJ_PLANE ((WINDOW_WIDTH/2)/tan(FOV_ANGLE/2))
-
+// Textures
 #define NUM_TEXTURES 8
 #define TEXTURE_WIDTH 64
 #define TEXTURE_HEIGHT 64
+
+// Math constants
+#define PI 3.14159265
+#define TWO_PI 6.28318530
+#define FRAME_TIME_LENGTH (1000 / FPS)
+#define FOV_ANGLE (60 * (PI/180))
+#define NUM_RAYS WINDOW_WIDTH
+#define DIST_PROJ_PLANE ((WINDOW_WIDTH/2)/tan(FOV_ANGLE/2))
+
+// Player movements
+#define PLAYER_TURN_DIRECTION_LEFT -1
+#define PLAYER_TURN_DIRECTION_RIGHT 1
+#define PLAYER_WALK_DIRECTION_BACK -1
+#define PLAYER_WALK_DIRECTION_FRONT 1
 
 #endif
