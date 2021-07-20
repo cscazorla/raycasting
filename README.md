@@ -16,4 +16,4 @@ As I'm using angles to represent orientation, I require expensive functions like
 This project is built in C99 and it compiles perfectly with GCC. The project uses [SDL](https://www.libsdl.org/) to deal with pixels, keyboard, etc.
 
 # Textures
-I'm using some textures from [64x Textures and Overlays](https://opengameart.org/content/64x-textures-an-overlays) (License Creative Commons 1.0) and the library [uPNG](https://github.com/elanthis/upng) to read PNG files from disk.
+The textures I'm using in this project belong to ID Software. It just recreated them for educational purposes. To read these PNG files I'm using [uPNG](https://github.com/elanthis/upng).

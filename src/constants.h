@@ -3,19 +3,14 @@
 
 // Game
 #define FPS 60
-#define WINDOW_WIDTH 480
-#define WINDOW_HEIGHT 300
+#define WINDOW_WIDTH 640
+#define WINDOW_HEIGHT 400
 
 // Map
 #define TILE_SIZE 64
 #define MAP_NUM_ROWS 13
 #define MAP_NUM_COLS 20
 #define MINIMAP_SCALE_FACTOR 0.25
-
-// Textures
-#define NUM_TEXTURES 8
-#define TEXTURE_WIDTH 64
-#define TEXTURE_HEIGHT 64
 
 // Math constants
 #define PI 3.14159265

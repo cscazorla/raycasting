@@ -247,27 +247,26 @@ void draw_3d_map() {
     struct Player player = getPlayer();
     for (int i = 0; i < NUM_RAYS; i++) {
         float correctedDistance = getRayWallHitDistance(i) * cos(getRayAngle(i) - player.rotationAngle);
-        float projectedWallHeight = (TILE_SIZE / correctedDistance) * DIST_PROJ_PLANE;
-        int wallColumnHeight = (int)projectedWallHeight;
+        float projectedWallHeight = ((float)TILE_SIZE / correctedDistance) * DIST_PROJ_PLANE;
 
         // Get top and bottom pixels
-        int wallTopPixel = (WINDOW_HEIGHT / 2.0) - (wallColumnHeight / 2.0);
+        int wallTopPixel = (WINDOW_HEIGHT / 2) - (projectedWallHeight / 2);
         wallTopPixel = wallTopPixel < 0 ? 0 : wallTopPixel;
-        int wallBottomPixel = (WINDOW_HEIGHT / 2.0) + (wallColumnHeight / 2.0);
+        int wallBottomPixel = (WINDOW_HEIGHT / 2) + (projectedWallHeight / 2);
         wallBottomPixel = wallBottomPixel > WINDOW_HEIGHT ? WINDOW_HEIGHT : wallBottomPixel;
 
         // Render the ceiling on the color buffer
         for (int j = 0; j < wallTopPixel; j++) {
-            draw_pixel(i, j, 0xFFFAF7E8);
+            draw_pixel(i, j, 0xFF555555);
         }
         
         // Render the wall on the color buffer
         int offsetX = getRayWasHitVertical(i)?(int)getRayWallHitY(i) % TILE_SIZE:(int)getRayWallHitX(i) % TILE_SIZE;
         int textIndex = getRayHitContent(i) - 1;
-        float intensityShadingFactor = 75 / getRayWallHitDistance(i);
+        float intensityShadingFactor = (float)(200.0) / getRayWallHitDistance(i);
         for (int j = wallTopPixel; j < wallBottomPixel; j++) {
-            int topDistance = j + (wallColumnHeight / 2) - (WINDOW_HEIGHT / 2);
-            int offsetY = topDistance * ((float)TEXTURE_HEIGHT / wallColumnHeight);
+            int topDistance = j + (projectedWallHeight / 2) - (WINDOW_HEIGHT / 2);
+            int offsetY = topDistance * ((float)TEXTURE_HEIGHT / projectedWallHeight);
             uint32_t color = textures[textIndex].texture_buffer[(TEXTURE_WIDTH * offsetY) + offsetX];
             changeColorIntensity(&color, intensityShadingFactor);
             draw_pixel(i, j, color);
@@ -275,7 +274,7 @@ void draw_3d_map() {
 
         // Render the floor on the color buffer
         for (int j = wallBottomPixel; j < WINDOW_HEIGHT; j++) {
-            draw_pixel(i, j, 0xFF24231F);
+            draw_pixel(i, j, 0xFF666666);
         }
 
     }

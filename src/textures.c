@@ -2,14 +2,10 @@
 #include "textures.h"
 
 static const char* textureFileNames[NUM_TEXTURES] = {
-    "./assets/Bark.png",
-    "./assets/BrickOv.png",
-    "./assets/CrateOver.png",
-    "./assets/LavaF1.png",
-    "./assets/Mud.png",
-    "./assets/Sand.png",
-    "./assets/WalkStone.png",
-    "./assets/WoolSnow.png"
+    "./assets/wall-stone.png",
+    "./assets/brick-grey.png",
+    "./assets/brick-red.png",
+    "./assets/metallic-door.png"
 };
 
 void loadTextures() {

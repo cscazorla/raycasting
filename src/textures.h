@@ -1,6 +1,11 @@
 #ifndef TEXTURES_H
 #define TEXTURES_H
 
+// Textures
+#define NUM_TEXTURES 4
+#define TEXTURE_WIDTH 64
+#define TEXTURE_HEIGHT 64
+
 #include <stdint.h>
 #include "constants.h"
 #include "upng.h"

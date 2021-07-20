@@ -69,8 +69,8 @@ void castRay(float rayAngle, float x, float y, int stripId) {
     * Horizontal intersections check
     ************************************************/
     bool foundHorzWallHit = false;
-    float horzWallHitX = 0;
-    float horzWallHitY = 0;
+    float horzWallHitX = 0.0;
+    float horzWallHitY = 0.0;
     int horzWallContent = 0;
 
     // Find the y-coordinate and x-coordinate of the closest horizontal grid intersection
@@ -82,7 +82,7 @@ void castRay(float rayAngle, float x, float y, int stripId) {
     // xstep and ystep calculation
     ystep = TILE_SIZE;
     ystep *= isFacingUp ? -1 : 1;
-    xstep = ystep / tan(rayAngle);
+    xstep = TILE_SIZE / tan(rayAngle);
     xstep *= (isFacingLeft && xstep > 0) ? -1 : 1;
     xstep *= (isFacingRight && xstep < 0) ? -1 : 1;
 
@@ -110,8 +110,8 @@ void castRay(float rayAngle, float x, float y, int stripId) {
     * Vertical intersections check
     ************************************************/
     bool foundVertWallHit = false;
-    float vertWallHitX = 0;
-    float vertWallHitY = 0;
+    float vertWallHitX = 0.0;
+    float vertWallHitY = 0.0;
     int vertWallContent = 0;
 
     // Find the y-coordinate and x-coordinate of the closest vertical grid intersection
@@ -122,7 +122,7 @@ void castRay(float rayAngle, float x, float y, int stripId) {
     // xstep and ystep calculation
     xstep = TILE_SIZE;
     xstep *= isFacingLeft ? -1 : 1;
-    ystep = xstep * tan(rayAngle);
+    ystep = TILE_SIZE * tan(rayAngle);
     ystep *= (isFacingUp && ystep > 0) ? -1 : 1;
     ystep *= (isFacingDown && ystep < 0) ? -1 : 1;
 
