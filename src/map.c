@@ -67,3 +67,17 @@ int getMapTileContent(float x, float y) {
     int j = (int)floor(x / TILE_SIZE);
     return map[i][j];
 }
+
+/*
+ * Function: isInMap
+ * -------------------
+ * Check if a coordinate (x,y) is inside the map boundaries
+ * 
+ * float x: Horizontal coordinate
+ * float y: Vertical coordinate
+ * 
+ * returns: bool with the response
+ */
+bool isInMap(float x, float y) {
+    return (x >= 0 && x <= (MAP_NUM_COLS * TILE_SIZE) && y >= 0 && y <= (MAP_NUM_ROWS * TILE_SIZE)); 
+}

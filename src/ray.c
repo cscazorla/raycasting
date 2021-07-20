@@ -90,7 +90,7 @@ void castRay(float rayAngle, float x, float y, int stripId) {
     // Main loop to find an horizontal wall hit
     float horizontalIntersectionNextX = xintercept;
     float horizontalIntersectionNextY = yintercept;
-    while (horizontalIntersectionNextX >= 0 && horizontalIntersectionNextX <= (MAP_NUM_COLS * TILE_SIZE) && horizontalIntersectionNextY >= 0 && horizontalIntersectionNextY <= (MAP_NUM_ROWS * TILE_SIZE)) {
+    while (isInMap(horizontalIntersectionNextX, horizontalIntersectionNextY)) {
         float xToCheck = horizontalIntersectionNextX;
         float yToCheck = horizontalIntersectionNextY + (isFacingUp ? -1 : 0);
         
@@ -129,21 +129,21 @@ void castRay(float rayAngle, float x, float y, int stripId) {
 
     // Main loop to find an horizontal wall hit
     float verticalIntersectionNextX = xintercept;
-    float nextVertTouchY = yintercept;
-    while (verticalIntersectionNextX >= 0 && verticalIntersectionNextX <= (MAP_NUM_COLS * TILE_SIZE) && nextVertTouchY >= 0 && nextVertTouchY <= (MAP_NUM_ROWS * TILE_SIZE)) {
+    float verticalIntersectionNextY = yintercept;
+    while (isInMap(verticalIntersectionNextX, verticalIntersectionNextY)) {
         float xToCheck = verticalIntersectionNextX + (isFacingLeft ? -1 : 0);
-        float yToCheck = nextVertTouchY;
+        float yToCheck = verticalIntersectionNextY;
         
         if (mapHasWallAt(xToCheck, yToCheck)) {
             // found a wall hit
             vertWallHitX = verticalIntersectionNextX;
-            vertWallHitY = nextVertTouchY;
+            vertWallHitY = verticalIntersectionNextY;
             vertWallContent = getMapTileContent(xToCheck, yToCheck);
             foundVertWallHit = true;
             break;
         } else {
             verticalIntersectionNextX += xstep;
-            nextVertTouchY += ystep;
+            verticalIntersectionNextY += ystep;
         }
     }
 
