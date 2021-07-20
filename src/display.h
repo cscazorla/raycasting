@@ -4,14 +4,8 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 
-SDL_Window* window;
-SDL_Renderer* renderer;
-SDL_Event sdl_event;
-uint32_t* color_buffer;
-SDL_Texture* color_buffer_texture;
-
 bool initializeWindow();
-void destroyWindow();
+void destroyResources();
 void clearBuffer();
 void swapBuffer();
 void draw_rect(int x, int y, int width, int height, uint32_t color);

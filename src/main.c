@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <SDL2/SDL.h>
-
 #include "constants.h"
 #include "display.h"
 #include "player.h"
@@ -9,6 +8,7 @@
 
 // Read input on every loop
 void readInput(bool *isGameRunning) {
+    SDL_Event sdl_event;
     SDL_PollEvent(&sdl_event);
     switch (sdl_event.type) {
         case SDL_QUIT: {
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
         render(dt);
     }
 
-    destroyWindow();
+    destroyResources();
 
     return 0;
 }

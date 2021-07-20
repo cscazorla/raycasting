@@ -12,6 +12,11 @@
 #include "ray.h"
 #include "textures.h"
 
+static SDL_Window* window;
+static SDL_Renderer* renderer;
+static uint32_t* color_buffer;
+static SDL_Texture* color_buffer_texture;
+
 /*
  * Function: initializeWindow
  * -------------------
@@ -67,7 +72,7 @@ bool initializeWindow() {
  * 
  * returns: void
  */
-void destroyWindow() {
+void destroyResources() {
     for (int i = 0; i < NUM_TEXTURES; i++) {
         upng_t* upng = textures[i].upngTexture;
         upng_free(upng);
