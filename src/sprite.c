@@ -9,10 +9,26 @@
 #include "upng.h"
 
 static sprite_t sprites[NUM_SPRITES] = {
-    { .x = 300, .y = 300, .textureIndex = 4},
-    { .x = 350, .y = 350, .textureIndex = 4},
-    { .x = 700, .y = 300, .textureIndex = 4}
+    { .i = 2, .j = 10, .textureIndex = 4},
+    { .i = 3, .j = 3, .textureIndex = 6},
+    { .i = 10, .j = 2, .textureIndex = 4},
+    { .i = 4, .j = 18, .textureIndex = 5},
+    { .i = 9, .j = 4, .textureIndex = 7},
 };
+
+/*
+ * Function: loadSprites
+ * -------------------
+ * Translates (i,j) cell-grid positions onto (x,y) float coordinates
+ * 
+ * returns: void
+ */
+void loadSprites() {
+    for (int i = 0; i < NUM_SPRITES; i++) {
+        sprites[i].x = sprites[i].j * TILE_SIZE + (float)TILE_SIZE / 2;
+        sprites[i].y = sprites[i].i * TILE_SIZE + (float)TILE_SIZE / 2;
+    }
+}
 
 /*
  * Function: drawSpritesInMiniMap
@@ -58,7 +74,7 @@ void drawSpriteProjection() {
         angleSpritePlayer = fabs(angleSpritePlayer);
 
         // Which sprite are under our FoV
-        const float EPSILON = 0.2;
+        const float EPSILON = 0.05;
         if (angleSpritePlayer < (FOV_ANGLE / 2) + EPSILON) {
             sprites[i].visible = true;
             sprites[i].angle = angleSpritePlayer;
