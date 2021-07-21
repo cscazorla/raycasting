@@ -19,7 +19,6 @@ This project is built in C99 and it compiles perfectly with GCC. The project use
 The textures and sprites that I'm using in this project belong to ID Software. I just recreated them for educational purposes. To read these PNG files I'm using [uPNG](https://github.com/elanthis/upng).
 
 # To Do
-* Set sprites position by (i,j) mapgrid indexes (as we do for the map) insted of by (x,y) coordinates
 * Animate sprites
 * Toggle minimap on/off
 * Profiling

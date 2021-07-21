@@ -7,6 +7,9 @@ static const char* textureFileNames[NUM_TEXTURES] = {
     "./assets/brick-red.png",
     "./assets/metallic-door.png",
     "./assets/armor.png",
+    "./assets/barrel.png",
+    "./assets/bones.png",
+    "./assets/hanged.png",
 };
 
 /*

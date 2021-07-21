@@ -1,9 +1,11 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#define NUM_SPRITES 3
+#define NUM_SPRITES 5
 
 typedef struct {
+    int i;
+    int j;
     float x;
     float y;
     float distance;
@@ -12,6 +14,7 @@ typedef struct {
     int textureIndex;
 } sprite_t;
 
+void loadSprites();
 void drawSpritesInMiniMap(void);
 void drawSpriteProjection(void);
 

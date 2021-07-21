@@ -5,7 +5,7 @@
 #include "upng.h"
 
 // Textures
-#define NUM_TEXTURES 5
+#define NUM_TEXTURES 8
 #define TEXTURE_WIDTH 64
 #define TEXTURE_HEIGHT 64
 

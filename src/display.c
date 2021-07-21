@@ -59,8 +59,9 @@ bool initializeWindow() {
         WINDOW_HEIGHT
     );
 
-    // Load textures through uPNG
+    // Load textures and sprites
     loadTextures();
+    loadSprites();
 
     return true;
 }
@@ -259,7 +260,7 @@ void drawWallProjection() {
 
         // Render the ceiling on the color buffer
         for (int j = 0; j < wallTopPixel; j++) {
-            draw_pixel(i, j, 0xFF555555);
+            draw_pixel(i, j, 0xFF777777);
         }
         
         // Render the wall on the color buffer
@@ -279,7 +280,7 @@ void drawWallProjection() {
 
         // Render the floor on the color buffer
         for (int j = wallBottomPixel; j < WINDOW_HEIGHT; j++) {
-            draw_pixel(i, j, 0xFF666666);
+            draw_pixel(i, j, 0xFF444444);
         }
 
     }

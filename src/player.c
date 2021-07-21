@@ -7,13 +7,13 @@
 struct Player player;
 
 void initializePlayer() {
-    player.x = 6 * TILE_SIZE;
-    player.y = 3.5 * TILE_SIZE;
+    player.x = TILE_SIZE * 1.5f;
+    player.y = TILE_SIZE * 1.5f;
     player.width = 10;
     player.height = 10;
     player.turnDirection = 0;
     player.walkDirection = 0;
-    player.rotationAngle = 0;
+    player.rotationAngle = PI/4;
     player.walkSpeed = 100;
     player.turnSpeed = 90 * (PI / 180);
 }
