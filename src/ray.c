@@ -5,6 +5,7 @@
 #include "map.h"
 #include "player.h"
 #include "ray.h"
+#include "utils.h"
 
 struct Ray {
     float rayAngle;
@@ -12,7 +13,7 @@ struct Ray {
     float wallHitY;
     float distance;
     bool wasHitVertical;
-    int wallHitContent;
+    int textureIndex;
 } rays[NUM_RAYS];
 
 /*
@@ -71,7 +72,7 @@ void castRay(float rayAngle, float x, float y, int stripId) {
     bool foundHorzWallHit = false;
     float horzWallHitX = 0.0;
     float horzWallHitY = 0.0;
-    int horzWallContent = 0;
+    int horzWallTexture = 0;
 
     // Find the y-coordinate and x-coordinate of the closest horizontal grid intersection
     float xintercept, yintercept;
@@ -97,7 +98,7 @@ void castRay(float rayAngle, float x, float y, int stripId) {
             // found a wall hit
             horzWallHitX = horizontalIntersectionNextX;
             horzWallHitY = horizontalIntersectionNextY;
-            horzWallContent = getMapTileContent(xToCheck, yToCheck);
+            horzWallTexture = getMapTileContent(xToCheck, yToCheck);
             foundHorzWallHit = true;
             break;
         } else {
@@ -112,7 +113,7 @@ void castRay(float rayAngle, float x, float y, int stripId) {
     bool foundVertWallHit = false;
     float vertWallHitX = 0.0;
     float vertWallHitY = 0.0;
-    int vertWallContent = 0;
+    int vertWallTexture = 0;
 
     // Find the y-coordinate and x-coordinate of the closest vertical grid intersection
     xintercept = floor(x / TILE_SIZE) * TILE_SIZE;
@@ -137,7 +138,7 @@ void castRay(float rayAngle, float x, float y, int stripId) {
             // found a wall hit
             vertWallHitX = verticalIntersectionNextX;
             vertWallHitY = verticalIntersectionNextY;
-            vertWallContent = getMapTileContent(xToCheck, yToCheck);
+            vertWallTexture = getMapTileContent(xToCheck, yToCheck);
             foundVertWallHit = true;
             break;
         } else {
@@ -159,14 +160,14 @@ void castRay(float rayAngle, float x, float y, int stripId) {
         rays[stripId].distance = vertHitDistance;
         rays[stripId].wallHitX = vertWallHitX;
         rays[stripId].wallHitY = vertWallHitY;
-        rays[stripId].wallHitContent = vertWallContent;
+        rays[stripId].textureIndex = vertWallTexture;
         rays[stripId].wasHitVertical = true;
         rays[stripId].rayAngle = rayAngle;
     } else {
         rays[stripId].distance = horzHitDistance;
         rays[stripId].wallHitX = horzWallHitX;
         rays[stripId].wallHitY = horzWallHitY;
-        rays[stripId].wallHitContent = horzWallContent;
+        rays[stripId].textureIndex = horzWallTexture;
         rays[stripId].wasHitVertical = false;
         rays[stripId].rayAngle = rayAngle;
     }
@@ -240,7 +241,7 @@ int getRayWasHitVertical(int i) {
 }
 
 /*
- * Function: getRayHitContent
+ * Function: getRayHitTexture
  * -------------------
  * For the ray "i" this function returns the content of the hit wall
  * 
@@ -248,38 +249,6 @@ int getRayWasHitVertical(int i) {
  * 
  * returns: int Content of the hit wall
  */
-int getRayHitContent(int i) {
-    return rays[i].wallHitContent;
-}
-
-/*
- * Function: normalizeAngle
- * -------------------
- * Returns the remainder angle when it is bigger than 2*PI
- * 
- * float angle: The angle to normalize
- * 
- * returns: float angle
- */
-void normalizeAngle(float* angle) {
-    *angle = remainder(*angle, TWO_PI);
-    if (*angle < 0) {
-        *angle = TWO_PI + *angle;
-    }
-}
-
-/*
- * Function: distanceBetweenPoints
- * -------------------
- * Returns the distance between two points (x1, y1) and (x2, y2)
- * 
- * float x1: The X coordinate of the first point
- * float y1: The Y coordinate of the first point
- * float x2: The X coordinate of the second point
- * float y2: The Y coordinate of the second point
- * 
- * returns: float Distance between the two points
- */
-float distanceBetweenPoints(float x1, float y1, float x2, float y2) {
-    return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+int getRayHitTexture(int i) {
+    return rays[i].textureIndex;
 }

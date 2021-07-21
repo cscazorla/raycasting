@@ -4,6 +4,7 @@
 #include "constants.h"
 #include "display.h"
 #include "player.h"
+#include "sprite.h"
 #include "ray.h"
 
 // Read input on every loop
@@ -49,8 +50,9 @@ void update(float dt) {
 
 void render(float dt) {
     clearBuffer();
-    draw_wall_projection();
-    // draw_mini_map();
+    drawWallProjection();
+    drawSpriteProjection();
+    draw_mini_map();
     swapBuffer();
 }
 

@@ -9,6 +9,7 @@
 #include "map.h"
 #include "player.h"
 #include "ray.h"
+#include "sprite.h"
 #include "textures.h"
 
 static SDL_Window* window;
@@ -72,10 +73,7 @@ bool initializeWindow() {
  * returns: void
  */
 void destroyResources() {
-    for (int i = 0; i < NUM_TEXTURES; i++) {
-        upng_t* upng = textures[i].upngTexture;
-        upng_free(upng);
-    }
+    freeTextures();
     free(color_buffer);
     SDL_DestroyTexture(color_buffer_texture);
     SDL_DestroyRenderer(renderer);
@@ -234,18 +232,22 @@ void draw_mini_map() {
             0xFF00FFFF
         );
     }
+
+    // Sprites
+    drawSpritesInMiniMap();
 }
 
 /*
- * Function: draw_wall_projection
+ * Function: drawWallProjection
  * -------------------
  * Draws the 3d projection of the map on the screen
  * 
  * returns: void
  */
-void draw_wall_projection() {
+void drawWallProjection() {
     struct Player player = getPlayer();
     for (int i = 0; i < NUM_RAYS; i++) {
+        // Get perpendicular distance to avoid fish-eye distortion
         float correctedDistance = getRayWallHitDistance(i) * cos(getRayAngle(i) - player.rotationAngle);
         float projectedWallHeight = ((float)TILE_SIZE / correctedDistance) * DIST_PROJ_PLANE;
 
@@ -262,12 +264,15 @@ void draw_wall_projection() {
         
         // Render the wall on the color buffer
         int offsetX = getRayWasHitVertical(i)?(int)getRayWallHitY(i) % TILE_SIZE:(int)getRayWallHitX(i) % TILE_SIZE;
-        int textIndex = getRayHitContent(i) - 1;
+        int textIndex = getRayHitTexture(i) - 1;
+        int textureWidth = upng_get_width(textures[textIndex]);
+        int textureHeight = upng_get_height(textures[textIndex]);
         float intensityShadingFactor = (float)(200.0) / getRayWallHitDistance(i);
         for (int j = wallTopPixel; j < wallBottomPixel; j++) {
             int topDistance = j + (projectedWallHeight / 2) - (WINDOW_HEIGHT / 2);
-            int offsetY = topDistance * ((float)TEXTURE_HEIGHT / projectedWallHeight);
-            uint32_t color = textures[textIndex].texture_buffer[(TEXTURE_WIDTH * offsetY) + offsetX];
+            int offsetY = topDistance * ((float)textureHeight / projectedWallHeight);
+            uint32_t* textureBuffer = (uint32_t*)upng_get_buffer(textures[textIndex]);
+            uint32_t color = textureBuffer[(textureWidth * offsetY) + offsetX];
             changeColorIntensity(&color, intensityShadingFactor);
             draw_pixel(i, j, color);
         }

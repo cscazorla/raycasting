@@ -2,6 +2,7 @@
 #include "map.h"
 #include "player.h"
 #include "ray.h"
+#include "utils.h"
 
 struct Player player;
 
@@ -28,6 +29,7 @@ void initializePlayer() {
  */
 void movePlayer(float dt) {
     player.rotationAngle += player.turnDirection * player.turnSpeed * dt;
+    normalizeAngle(&player.rotationAngle);
     float moveStep = player.walkDirection * player.walkSpeed * dt;
     float newPlayerX = player.x + cos(player.rotationAngle) * moveStep;
     float newPlayerY = player.y + sin(player.rotationAngle) * moveStep;

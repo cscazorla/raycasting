@@ -10,7 +10,5 @@ float getRayWallHitY(int i);
 float getRayWallHitDistance(int i);
 float getRayAngle(int i);
 int getRayWasHitVertical(int i);
-int getRayHitContent(int i);
-float distanceBetweenPoints(float x1, float y1, float x2, float y2);
-void normalizeAngle(float* angle);
+int getRayHitTexture(int i);
 #endif
