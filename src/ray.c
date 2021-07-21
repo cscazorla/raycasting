@@ -7,15 +7,6 @@
 #include "ray.h"
 #include "utils.h"
 
-struct Ray {
-    float rayAngle;
-    float wallHitX;
-    float wallHitY;
-    float distance;
-    bool wasHitVertical;
-    int textureIndex;
-} rays[NUM_RAYS];
-
 /*
  * Function: castRays
  * -------------------

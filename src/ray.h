@@ -3,6 +3,15 @@
 
 #include "player.h"
 
+struct Ray {
+    float rayAngle;
+    float wallHitX;
+    float wallHitY;
+    float distance;
+    bool wasHitVertical;
+    int textureIndex;
+} rays[NUM_RAYS];
+
 void castRays();
 void castRay(float rayAngle, float x, float y, int stripId);
 float getRayWallHitX(int i);
