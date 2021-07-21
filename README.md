@@ -23,3 +23,4 @@ The textures and sprites that I'm using in this project belong to ID Software. I
 * Animate sprites
 * Toggle minimap on/off
 * Profiling
+* The logic that handles if a sprite is visible or not shouln't run on the drawSpriteProjection(). This should happen in the movePlayer(), as the PoV gets updated there. drawSpriteProjection() should render only
