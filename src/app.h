@@ -1,16 +1,26 @@
-#ifndef CONSTANTS_H
-#define CONSTANTS_H
+#ifndef APP_H
+#define APP_H
+
+#include <stdbool.h>
+
+struct Game {
+    bool showMiniMap;
+    bool isGameRunning;
+};
 
 // Game
 #define FPS 60
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 500
+#define WINDOW_WIDTH 640
+#define WINDOW_HEIGHT 400
 
 // Map
 #define TILE_SIZE 64
-#define MAP_NUM_ROWS 13
+#define MAP_NUM_ROWS 12
 #define MAP_NUM_COLS 20
-#define MINIMAP_SCALE_FACTOR 0.25
+#define MAP_WIDTH (TILE_SIZE * MAP_NUM_COLS)
+#define MAP_HEIGHT (TILE_SIZE * MAP_NUM_ROWS)
+#define MINIMAP_WIDTH_TILE_SIZE (WINDOW_WIDTH / MAP_NUM_COLS)
+#define MINIMAP_HEIGHT_TILE_SIZE (WINDOW_HEIGHT / MAP_NUM_ROWS)
 
 // Math constants
 #define PI 3.14159265

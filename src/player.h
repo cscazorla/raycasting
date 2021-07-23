@@ -4,6 +4,8 @@
 struct Player {
     float x;
     float y;
+    float minimap_x;
+    float minimap_y;
     float width;
     float height;
     int turnDirection; // -1 for left, +1 for right

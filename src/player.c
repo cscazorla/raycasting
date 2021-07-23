@@ -13,7 +13,7 @@ void initializePlayer() {
     player.height = 10;
     player.turnDirection = 0;
     player.walkDirection = 0;
-    player.rotationAngle = PI/4;
+    player.rotationAngle = PI/2;
     player.walkSpeed = 100;
     player.turnSpeed = 90 * (PI / 180);
 }
@@ -37,6 +37,8 @@ void movePlayer(float dt) {
     if(!mapHasWallAt(newPlayerX, newPlayerY)) {
         player.x = newPlayerX;
         player.y = newPlayerY;
+        player.minimap_x = ((float)WINDOW_WIDTH/MAP_WIDTH) * player.x;
+        player.minimap_y = ((float)WINDOW_HEIGHT/MAP_HEIGHT) * player.y;
     }
 }
 

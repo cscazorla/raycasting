@@ -1,24 +1,27 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <SDL2/SDL.h>
-#include "constants.h"
+#include "app.h"
 #include "display.h"
 #include "player.h"
 #include "sprite.h"
 #include "ray.h"
 
+// Global game variable
+struct Game game;
+
 // Read input on every loop
-void readInput(bool *isGameRunning) {
+void readInput() {
     SDL_Event sdl_event;
     SDL_PollEvent(&sdl_event);
     switch (sdl_event.type) {
         case SDL_QUIT: {
-            *isGameRunning = false;
+            game.isGameRunning = false;
             break;
         }
         case SDL_KEYDOWN: {
             if (sdl_event.key.keysym.sym == SDLK_ESCAPE)
-                *isGameRunning = false;
+                game.isGameRunning = false;
             if (sdl_event.key.keysym.sym == SDLK_UP)
                 setPlayerWalkDirection(PLAYER_WALK_DIRECTION_FRONT);
             if (sdl_event.key.keysym.sym == SDLK_DOWN)
@@ -27,6 +30,8 @@ void readInput(bool *isGameRunning) {
                 setPlayerTurnDirection(PLAYER_TURN_DIRECTION_RIGHT);
             if (sdl_event.key.keysym.sym == SDLK_LEFT)
                 setPlayerTurnDirection(PLAYER_TURN_DIRECTION_LEFT);
+            if (sdl_event.key.keysym.sym == SDLK_m)
+                game.showMiniMap = !game.showMiniMap;
             break;
         }
         case SDL_KEYUP: {
@@ -52,20 +57,21 @@ void render(float dt) {
     clearBuffer();
     drawWallProjection();
     drawSpriteProjection();
-    draw_mini_map();
+    if (game.showMiniMap)
+        draw_mini_map();
     swapBuffer();
 }
 
 int main(int argc, char *argv[]) {
-    bool isGameRunning = initializeWindow();
+    game.isGameRunning = initializeWindow();
     int ticksLastFrame = 0;
     int timeToWait = 0;
     float dt = 0;
 
     initializePlayer();
 
-    while (isGameRunning) {
-        readInput(&isGameRunning);
+    while (game.isGameRunning) {
+        readInput();
 
         // Calculate delta time
         timeToWait = FRAME_TIME_LENGTH - (SDL_GetTicks() - ticksLastFrame);

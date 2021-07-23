@@ -1,5 +1,5 @@
 #include <math.h>
-#include "constants.h"
+#include "app.h"
 #include "display.h"
 #include "player.h"
 #include "ray.h"
@@ -9,11 +9,11 @@
 #include "upng.h"
 
 static sprite_t sprites[NUM_SPRITES] = {
-    { .i = 2, .j = 10, .textureIndex = 4},
-    { .i = 3, .j = 3, .textureIndex = 6},
-    { .i = 10, .j = 2, .textureIndex = 4},
+    { .i = 3, .j = 11, .textureIndex = 4},
+    { .i = 3, .j = 3, .textureIndex = 7},
+    { .i = 1, .j = 5, .textureIndex = 6},
     { .i = 4, .j = 18, .textureIndex = 5},
-    { .i = 9, .j = 4, .textureIndex = 7},
+    { .i = 8, .j = 4, .textureIndex = 7},
 };
 
 /*
@@ -39,15 +39,13 @@ void loadSprites() {
  */
 void drawSpritesInMiniMap() {
     for (int i = 0; i < NUM_SPRITES; i++) {
-        if(sprites[i].visible) {
-            draw_rect(
-                sprites[i].x * MINIMAP_SCALE_FACTOR,
-                sprites[i].y * MINIMAP_SCALE_FACTOR,
-                5,
-                5,
-                0xFFFF0000
-            );
-        }
+        draw_rect(
+            sprites[i].x * ((float)WINDOW_WIDTH/MAP_WIDTH),
+            sprites[i].y * ((float)WINDOW_HEIGHT/MAP_HEIGHT),
+            5,
+            5,
+            0xFFFF0000
+        );
     }
 }
 /*
@@ -89,9 +87,11 @@ void drawSpriteProjection() {
     // bubble-sort sprites by distance (back from front - painter's algorithm)
     for (int i = 0; i < numVisibleSprites - 1; i++) {
         for (int j = i + 1; j < numVisibleSprites; j++) {
-            sprite_t tmp = visibleSprites[i];
-            visibleSprites[i] = visibleSprites[j];
-            visibleSprites[j] = tmp;
+            if (visibleSprites[i].distance < visibleSprites[j].distance) {
+                sprite_t tmp = visibleSprites[i];
+                visibleSprites[i] = visibleSprites[j];
+                visibleSprites[j] = tmp;
+            }
         }
     }
 
@@ -125,12 +125,14 @@ void drawSpriteProjection() {
             float pixelWidth = textureWidth / spriteWidth;
             int textureOffsetX = (x - spriteLeftX) * pixelWidth;
             for (int y = spriteTopY; y < spriteBottomY; y++) {
-                int distanceFromTop = y + (spriteHeight / 2) - (WINDOW_HEIGHT/2);
-                int textureOffsetY = distanceFromTop * (textureHeight / spriteHeight);
-                uint32_t* spriteTextureBuffer = (uint32_t*)upng_get_buffer(textures[sprite.textureIndex]);
-                uint32_t color = spriteTextureBuffer[(textureWidth * textureOffsetY) + textureOffsetX];
-                if((sprite.distance < getRayWallHitDistance(x)) && (color != 0xFF880098)) // Our transparency color
-                    draw_pixel(x, y, color);
+                if (x > 0 && x < WINDOW_WIDTH && y > 0 && y < WINDOW_HEIGHT) {
+                    int distanceFromTop = y + (spriteHeight / 2) - (WINDOW_HEIGHT/2);
+                    int textureOffsetY = distanceFromTop * (textureHeight / spriteHeight);
+                    uint32_t* spriteTextureBuffer = (uint32_t*)upng_get_buffer(textures[sprite.textureIndex]);
+                    uint32_t color = spriteTextureBuffer[(textureWidth * textureOffsetY) + textureOffsetX];
+                    if(sprite.distance < getRayWallHitDistance(x) && color != 0xFF880098) // Our transparency color
+                        draw_pixel(x, y, color);
+                }
             }
         }
     }

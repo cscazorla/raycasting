@@ -1,7 +1,7 @@
 #ifndef TEXTURES_H
 #define TEXTURES_H
 #include <stdint.h>
-#include "constants.h"
+#include "app.h"
 #include "upng.h"
 
 // Textures

@@ -12,6 +12,9 @@ Assumptions in my implementation:
 
 As I'm using angles to represent orientation, I require expensive functions like sine, cosine and tangent. Therefore, this is not the fastest raycasting implementation. If you pursue performance, you shoud look into the famous [Lodev article](lodev.org/cgtutor/raycasting.html), that uses vectors (x,y) to represent orientation.
 
+# Instructions
+Use the key arrows to move around the map. Press `m` for the minimap.
+
 # Compilation
 This project is built in C99 and it compiles perfectly with GCC. The project uses [SDL](https://www.libsdl.org/) to deal with pixels, keyboard, etc.
 
@@ -20,6 +23,5 @@ The textures and sprites that I'm using in this project belong to ID Software. I
 
 # To Do
 * Animate sprites
-* Toggle minimap on/off
 * Profiling
 * The logic that handles if a sprite is visible or not shouln't run on the drawSpriteProjection(). This should happen in the movePlayer(), as the PoV gets updated there. drawSpriteProjection() should render only

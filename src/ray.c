@@ -1,7 +1,7 @@
 #include <float.h>
 #include <math.h>
 #include <stdbool.h>
-#include "constants.h"
+#include "app.h"
 #include "map.h"
 #include "player.h"
 #include "ray.h"

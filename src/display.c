@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <SDL2/SDL.h>
-#include "constants.h"
+#include "app.h"
 #include "display.h"
 #include "map.h"
 #include "player.h"
@@ -196,18 +196,17 @@ void draw_line(int x0, int y0, int x1, int y1, uint32_t color) {
  * returns: void
  */
 void draw_mini_map() {
-    // Map
+    // Map background
     for (int i = 0; i < MAP_NUM_ROWS; i++) {
         for (int j = 0; j < MAP_NUM_COLS; j++) {
-            int tileX = j * TILE_SIZE;
-            int tileY = i * TILE_SIZE;
             uint32_t tileColor = getMapTileColor(i, j);
-
+            float x = (j + 0.5) * MINIMAP_WIDTH_TILE_SIZE;
+            float y = (i + 0.5) * MINIMAP_HEIGHT_TILE_SIZE;
             draw_rect(
-                (tileX + TILE_SIZE/2.0) * MINIMAP_SCALE_FACTOR, 
-                (tileY + TILE_SIZE/2.0) * MINIMAP_SCALE_FACTOR, 
-                TILE_SIZE * MINIMAP_SCALE_FACTOR, 
-                TILE_SIZE * MINIMAP_SCALE_FACTOR, 
+                x, 
+                y, 
+                MINIMAP_WIDTH_TILE_SIZE, 
+                MINIMAP_HEIGHT_TILE_SIZE, 
                 tileColor
             );
         }
@@ -216,20 +215,20 @@ void draw_mini_map() {
     // Player
     struct Player player = getPlayer();
     draw_rect(
-        player.x * MINIMAP_SCALE_FACTOR,
-        player.y * MINIMAP_SCALE_FACTOR,
-        player.width * MINIMAP_SCALE_FACTOR,
-        player.height * MINIMAP_SCALE_FACTOR,
+        player.minimap_x, 
+        player.minimap_y, 
+        MINIMAP_WIDTH_TILE_SIZE/8,
+        MINIMAP_HEIGHT_TILE_SIZE/8,
         0xFF0000FF
     );
-
+    
     // Rays
     for (int i = 0; i < NUM_RAYS; i++) {
         draw_line(
-            player.x * MINIMAP_SCALE_FACTOR,
-            player.y * MINIMAP_SCALE_FACTOR,
-            getRayWallHitX(i) * MINIMAP_SCALE_FACTOR,
-            getRayWallHitY(i) * MINIMAP_SCALE_FACTOR,
+            player.minimap_x, 
+            player.minimap_y, 
+            getRayWallHitX(i) * ((float)WINDOW_WIDTH/MAP_WIDTH), 
+            getRayWallHitY(i) * ((float)WINDOW_HEIGHT/MAP_HEIGHT),
             0xFF00FFFF
         );
     }

@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "constants.h"
+#include "app.h"
 
 bool mapHasWallAt(float x, float y);
 bool isInMap(float x, float y);
